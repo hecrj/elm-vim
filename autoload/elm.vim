@@ -40,8 +40,14 @@ endf
 " Vim command to format Elm files with elm-format
 function! elm#Format() abort
 	" check for elm-format
-	if elm#util#CheckBin('elm-format', 'https://github.com/avh4/elm-format') ==# ''
-		return
+	let l:format_exe = elm#util#CheckBin('node_modules/.bin/elm-format', 'https://github.com/avh4/elm-format')
+
+	if empty(l:format_exe)
+	    let l:format_exe = elm#util#CheckBin('elm-format', 'https://github.com/avh4/elm-format')
+	endif
+
+	if empty(l:format_exe)
+	    return
 	endif
 
 	" save cursor position, folds and many other things
@@ -61,7 +67,7 @@ function! elm#Format() abort
 	call writefile(getline(1, '$'), l:tmpname)
 
 	" call elm-format on the temporary file
-	let l:out = system('elm-format ' . l:tmpname . ' --output ' . l:tmpname)
+	let l:out = system(l:format_exe . ' ' . l:tmpname . ' --output ' . l:tmpname)
 
 	" if there is no error
 	if v:shell_error == 0

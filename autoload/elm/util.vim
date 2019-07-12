@@ -17,7 +17,7 @@ fun! elm#util#CheckBin(bin, url) abort
     return l:binpath
   endif
 
-  call elm#util#EchoWarning('elm-vim:', 'could not find ' . l:binpath . ' [' . a:url . ']')
+  "call elm#util#EchoWarning('elm-vim:', 'could not find ' . l:binpath . ' [' . a:url . ']')
 
   return ''
 endf
